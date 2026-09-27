@@ -1,0 +1,22 @@
+# Local settings and credentials
+config.json
+*.dpapi
+
+# Generated build outputs
+*.exe
+*.zip
+build/payload.zip
+build/cockpit.ico
+
+# Local and account-specific previews
+preview-live.png
+tests/*.png
+
+# Editor and OS files
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+*.user
+*.suo
+

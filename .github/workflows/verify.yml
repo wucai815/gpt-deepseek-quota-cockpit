@@ -1,0 +1,30 @@
+name: Verify Windows build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-and-build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run tests
+        shell: powershell
+        run: |
+          Get-ChildItem .\tests\*.Tests.ps1 | ForEach-Object {
+            & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $_.FullName
+            if ($LASTEXITCODE -ne 0) { throw "Test failed: $($_.Name)" }
+          }
+
+      - name: Build Windows executable
+        shell: powershell
+        run: .\build\Build.ps1 -OutputPath .\QuotaCockpit.exe
+
+      - name: Upload executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: QuotaCockpit-Windows
+          path: QuotaCockpit.exe
+

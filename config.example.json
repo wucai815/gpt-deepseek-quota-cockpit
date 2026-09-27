@@ -1,0 +1,8 @@
+{
+  "pollSeconds": 60,
+  "codexPath": "",
+  "limitId": "codex",
+  "screenIndex": -1,
+  "topmost": false,
+  "windowed": false
+}
