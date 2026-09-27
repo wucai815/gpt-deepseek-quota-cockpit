@@ -67,7 +67,7 @@
               <Border Grid.Row="2" BorderBrush="#29413F" BorderThickness="0,1,0,0" Padding="4,7,4,0">
                 <Grid><Grid.RowDefinitions><RowDefinition Height="21"/><RowDefinition Height="*"/></Grid.RowDefinitions>
                   <TextBlock Text="下次重置" FontSize="12" Foreground="#A7B8CB"/>
-                  <TextBlock x:Name="ShortResetDate" Text="本地时间" FontSize="13" Foreground="#A7B8CB" HorizontalAlignment="Right"/>
+                  <TextBlock x:Name="ShortResetDate" Visibility="Collapsed"/>
                   <TextBlock x:Name="ShortReset" Grid.Row="1" Text="--" FontSize="32" FontWeight="Medium" Foreground="#EDF3FA" VerticalAlignment="Center"/>
                   <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <TextBlock x:Name="ShortCountdownLead" Text="还有" FontSize="12" Foreground="#93A6BD" VerticalAlignment="Center" Margin="0,0,7,0"/>
@@ -112,15 +112,13 @@
               <StackPanel Orientation="Horizontal" Margin="0,15,0,0"><Button x:Name="DsSetupButton" Content="设置密钥" FontSize="11" Padding="9,4"/><Button x:Name="DsCurrencyButton" Content="--" FontSize="11" Padding="8,4" Margin="6,0,0,0" ToolTip="多个币种时切换"/></StackPanel>
             </StackPanel>
             <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-              <TextBlock Text="API 可用余额" FontSize="13" Foreground="#A6B8D1" HorizontalAlignment="Center"/>
+              <TextBlock Text="API 可用余额" FontSize="18" FontWeight="SemiBold" Foreground="#B9C9DE" HorizontalAlignment="Center"/>
               <Viewbox Stretch="Uniform" StretchDirection="DownOnly" MaxWidth="405" HorizontalAlignment="Center"><StackPanel Orientation="Horizontal"><TextBlock x:Name="DsSymbol" Text="" FontSize="29" Foreground="#8CB3EF" VerticalAlignment="Center" Margin="0,5,8,0"/><TextBlock x:Name="DsTotal" Text="--" FontSize="68" FontWeight="SemiBold" Foreground="#F1F5FC"/></StackPanel></Viewbox>
               <TextBlock x:Name="DsSync" Visibility="Collapsed" Text="等待同步" Foreground="#829ABF" FontSize="11" HorizontalAlignment="Center"/>
             </StackPanel>
             <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="10,0,0,0">
               <Border x:Name="DsTariffBadge" Background="#203A37" CornerRadius="7" Padding="10,7"><TextBlock x:Name="DsTariffTitle" Text="正在计算计价时段" FontSize="16" FontWeight="SemiBold" Foreground="#93DDC9" HorizontalAlignment="Center"/></Border>
-              <TextBlock x:Name="DsTariffNext" Text="" FontSize="16" FontFamily="Consolas, Microsoft YaHei UI" Foreground="#D6E1EF" Margin="0,10,0,0" HorizontalAlignment="Center"/>
-              <TextBlock Text="峰时 09–12 / 14–18 北京时间" FontSize="10" Foreground="#8EA3BF" Margin="0,8,0,0" HorizontalAlignment="Center"/>
-              <TextBlock Text="周末及节假日全天低谷" FontSize="11" Foreground="#8EA3BF" Margin="0,3,0,0" HorizontalAlignment="Center"/>
+              <TextBlock x:Name="DsTariffNext" Text="" FontSize="20" FontWeight="SemiBold" FontFamily="Consolas, Microsoft YaHei UI" Foreground="#E1E9F5" Margin="0,14,0,0" HorizontalAlignment="Center"/>
             </StackPanel>
           </Grid>
         </Border>
