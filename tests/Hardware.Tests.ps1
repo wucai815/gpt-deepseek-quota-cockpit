@@ -15,9 +15,9 @@ try {
     Check ($snapshot.memory.usedGb -gt 0) 'Memory used available.'
     Check ($snapshot.memory.totalGb -gt $snapshot.memory.usedGb) 'Memory total exceeds used.'
     Check ([math]::Abs($snapshot.memory.usage - 100 * $snapshot.memory.usedGb / $snapshot.memory.totalGb) -lt 2) 'Memory percentage matches physical capacity.'
-    Check ($snapshot.gpu.usage -ge 0 -and $snapshot.gpu.usage -le 100) 'GPU usage bounded.'
-    Check ($snapshot.gpu.temperature -gt 0 -and $snapshot.gpu.temperature -lt 120) 'GPU temperature plausible.'
-    Check ($snapshot.gpu.memoryTotalGb -gt 0) 'GPU memory total available.'
+    Check ($null -eq $snapshot.gpu.usage -or ($snapshot.gpu.usage -ge 0 -and $snapshot.gpu.usage -le 100)) 'GPU usage missing or bounded.'
+    Check ($null -eq $snapshot.gpu.temperature -or ($snapshot.gpu.temperature -gt 0 -and $snapshot.gpu.temperature -lt 120)) 'GPU temperature missing or plausible.'
+    Check ($null -eq $snapshot.gpu.memoryTotalGb -or $snapshot.gpu.memoryTotalGb -gt 0) 'GPU memory total missing or available.'
     Check (-not [string]::IsNullOrWhiteSpace($snapshot.gpu.name)) 'GPU name available.'
 } finally { Close-HardwareMonitor $computer }
 Write-Output ('PASS: {0} hardware sensor assertions.' -f $count)

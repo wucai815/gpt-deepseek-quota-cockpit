@@ -2,13 +2,14 @@ name: Verify Windows build
 
 on:
   push:
+    branches: [main]
   pull_request:
 
 jobs:
   test-and-build:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Run tests
         shell: powershell
@@ -20,11 +21,10 @@ jobs:
 
       - name: Build Windows executable
         shell: powershell
-        run: .\build\Build.ps1 -OutputPath .\QuotaCockpit.exe
+        run: .\build\Build.ps1 -OutputPath .\QuotaCockpit-Hardware.exe
 
       - name: Upload executable
         uses: actions/upload-artifact@v4
         with:
-          name: QuotaCockpit-Windows
-          path: QuotaCockpit.exe
-
+          name: GPT-Hardware-Cockpit-Windows
+          path: QuotaCockpit-Hardware.exe
