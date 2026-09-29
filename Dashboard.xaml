@@ -161,7 +161,7 @@
                 <Border x:Name="RamFill" Width="0" CornerRadius="5" Background="#86B1FF" HorizontalAlignment="Left"/>
               </Border>
               <Grid Grid.Row="3" Margin="7,8,7,0">
-                <TextBlock x:Name="RamUsed" Text="已用  --" FontSize="20" FontWeight="Medium" Foreground="#D6E1F0"/>
+                <TextBlock x:Name="RamUsed" Text="已用  --" FontSize="20" FontWeight="Medium" Foreground="#D6E1F0" HorizontalAlignment="Center"/>
               </Grid>
             </Grid>
           </Grid>
