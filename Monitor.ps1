@@ -162,7 +162,7 @@ public static class QuotaDisplay {
             $script:ui[($Prefix + 'Used')].Text = '服务尚未提供该窗口数据'
         } else {
             $script:ui[($Prefix + 'Value')].Text = ('{0:0.#}' -f $remaining)
-            $script:ui[($Prefix + 'Used')].Text = ('已使用 {0:0.#}% · 当前窗口' -f $QuotaWindow.usedPercent)
+            $script:ui[($Prefix + 'Used')].Text = ('已使用 {0:0.#}%' -f $QuotaWindow.usedPercent)
             if ($remaining -le 5) { $Color = '#FF9494' }
             elseif ($remaining -le 20) { $Color = '#EEC27D' }
         }

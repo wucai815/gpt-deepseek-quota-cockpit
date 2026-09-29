@@ -1,16 +1,16 @@
-# GPT + Hardware 副屏驾驶舱 · 本地硬件版
+# GPT + Hardware 副屏驾驶舱
 
 为 960×640 横向副屏设计的原生 Windows 面板。上方保持 Codex 5 小时与每周额度仪表盘，下方每秒刷新 CPU、GPU 和物理内存状态。
 
 ![硬件驾驶舱预览](preview-hardware.png)
 
-此分支为本地实验版本，不推送或发布到 GitHub。原有 DeepSeek 版本保留在 `main` 分支。
+当前 `v2.0.0` 为硬件监控版。需要 DeepSeek 余额面板时，可继续使用历史版本 `v1.0.1`。
 
 ## 显示内容
 
 - CPU：实时使用率、频率和温度。
 - GPU：实时使用率、核心温度和显存占用。
-- RAM：实时使用率、已用容量、总容量和可用容量。
+- RAM：实时使用率、已用容量和总容量。
 - Codex：5 小时及每周剩余额度、重置时间和倒计时，逻辑与原版一致。
 
 硬件区采用大号数字与加粗信息，只保留运行时最有用的读数，不显示处理器、显卡和内存型号小字。
@@ -19,7 +19,7 @@
 
 ## 传感器说明
 
-硬件传感器使用 LibreHardwareMonitorLib 0.9.6。GPU 数据在当前 RTX 4070 SUPER 上可读取温度、显存和功耗；Windows 系统接口作为降级来源。
+硬件传感器使用 LibreHardwareMonitorLib 0.9.6。GPU 数据在当前 RTX 4070 SUPER 上可读取使用率、温度和显存；Windows 系统接口作为降级来源。
 
 CPU 温度需要安装 [PawnIO 官方驱动](https://github.com/namazso/PawnIO.Setup/releases)，并以管理员权限运行面板。本机已安装且验证 PawnIO 2.2.0，成功读取 i5-12490F 封装温度及实时核心频率。EXE 和 Start.cmd 会请求 Windows 管理员确认；取消确认则不启动。驱动未安装或传感器不可用时显示 `-- ℃`，不会用 ACPI 环境温度代替。
 
