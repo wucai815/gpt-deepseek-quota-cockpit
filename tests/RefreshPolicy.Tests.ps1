@@ -23,12 +23,4 @@ $snapshot.secondary.remainingPercent=70
 Check (-not (Get-CodexRefreshPolicy $snapshot $now).paused) 'Missing quota is not depleted.'
 $snapshot.primary.remainingPercent=1
 Check (-not (Get-CodexRefreshPolicy $snapshot $now).paused) 'Low nonzero quota still refreshes.'
-Check (-not (Test-DeepSeekDepleted $null)) 'Initial DS fetch allowed.'
-Check (Test-DeepSeekDepleted ([pscustomobject]@{isAvailable=$false;balances=@()})) 'Server unavailable balance pauses DS.'
-Check (Test-DeepSeekDepleted ([pscustomobject]@{isAvailable=$true;balances=@([pscustomobject]@{total=0})})) 'Zero balance pauses DS.'
-Check (-not (Test-DeepSeekDepleted ([pscustomobject]@{isAvailable=$true;balances=@([pscustomobject]@{total=0},[pscustomobject]@{total=3})}))) 'Do not pause when another currency has funds.'
-Check (-not (Test-DeepSeekDepleted ([pscustomobject]@{isAvailable=$true;balances=@([pscustomobject]@{total=$null})}))) 'Unknown balance must retry.'
-Check (-not (Test-DeepSeekDepleted ([pscustomobject]@{isAvailable=$true;balances=@()}))) 'Missing balances must retry.'
-Check (Test-DeepSeekDepleted ([pscustomobject]@{isAvailable=$true;balances=@([pscustomobject]@{total=-0.01})})) 'Negative service balance is depleted.'
-Check (-not (Test-DeepSeekDepleted ([pscustomobject]@{isAvailable=$true;balances=@([pscustomobject]@{total=20})}))) 'Top-up resumes polling after manual refresh.'
 Write-Output ('PASS: '+$count+' depletion/pause/resume policy checks.')

@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-[assembly: AssemblyTitle("Quota Cockpit")]
-[assembly: AssemblyDescription("GPT and DeepSeek secondary-screen dashboard")]
+[assembly: AssemblyTitle("Quota Cockpit Hardware")]
+[assembly: AssemblyDescription("GPT quota and PC hardware secondary-screen dashboard")]
 [assembly: AssemblyCompany("Personal Tools")]
-[assembly: AssemblyProduct("Quota Cockpit")]
-[assembly: AssemblyVersion("1.3.0.0")]
-[assembly: AssemblyFileVersion("1.3.0.0")]
+[assembly: AssemblyProduct("Quota Cockpit Hardware")]
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.0")]
 
 internal static class Launcher
 {
@@ -25,10 +25,10 @@ internal static class Launcher
         try
         {
             foreach (string arg in args)
-                if (arg != "--demo" && arg != "--windowed" && arg != "--self-test" && arg != "--smoke-test" && arg != "--settings")
+                if (arg != "--demo" && arg != "--windowed" && arg != "--self-test" && arg != "--smoke-test")
                     throw new ArgumentException("Unsupported option: " + arg);
 
-            string dataRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GptQuotaMonitor");
+            string dataRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GptHardwareCockpit");
             byte[] payload;
             using (Stream source = Assembly.GetExecutingAssembly().GetManifestResourceStream("Cockpit.Payload"))
             using (MemoryStream memory = new MemoryStream())
@@ -72,19 +72,18 @@ internal static class Launcher
 
             if (Array.IndexOf(args, "--self-test") >= 0)
             {
-                foreach (string required in new string[] { "Monitor.ps1", "Dashboard.xaml", "QuotaSource.ps1", "DeepSeekSource.ps1", "DeepSeekPanel.ps1", "DeepSeekTariff.ps1", "pricing-rules.json", "Set-DeepSeekKey.ps1" })
+                foreach (string required in new string[] { "Monitor.ps1", "Dashboard.xaml", "QuotaSource.ps1", "HardwareSource.ps1", "HardwarePanel.ps1", "vendor\\LibreHardwareMonitor\\lib\\LibreHardwareMonitorLib.dll" })
                     if (!File.Exists(Path.Combine(runtime, required))) throw new InvalidDataException("Missing " + required);
                 File.WriteAllText(Path.Combine(dataRoot, "exe-self-test.txt"), "PASS\r\nPayload SHA256: " + hash + "\r\nRuntime: " + runtime, Encoding.UTF8);
                 return 0;
             }
 
-            bool settings = Array.IndexOf(args, "--settings") >= 0;
-            string script = Path.Combine(runtime, settings ? "Set-DeepSeekKey.ps1" : "Monitor.ps1");
+            string script = Path.Combine(runtime, "Monitor.ps1");
             string command = "-NoLogo -NoProfile -NonInteractive -STA -WindowStyle Hidden -ExecutionPolicy Bypass -File " + Quote(script);
-            if (!settings) command += " -ConfigPath " + Quote(Path.Combine(dataRoot, "config.json"));
-            if (!settings && Array.IndexOf(args, "--demo") >= 0) command += " -Demo";
-            if (!settings && Array.IndexOf(args, "--windowed") >= 0) command += " -Windowed";
-            if (!settings && Array.IndexOf(args, "--smoke-test") >= 0) command += " -SmokeTest";
+            command += " -ConfigPath " + Quote(Path.Combine(dataRoot, "config.json"));
+            if (Array.IndexOf(args, "--demo") >= 0) command += " -Demo";
+            if (Array.IndexOf(args, "--windowed") >= 0) command += " -Windowed";
+            if (Array.IndexOf(args, "--smoke-test") >= 0) command += " -SmokeTest";
             ProcessStartInfo info = new ProcessStartInfo();
             info.FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "System32", "WindowsPowerShell", "v1.0", "powershell.exe");
             info.Arguments = command;
@@ -111,10 +110,10 @@ internal static class Launcher
         }
         catch (Exception error)
         {
-            if (!diagnostic) MessageBox.Show("无法启动额度驾驶舱：\r\n" + error.Message, "额度驾驶舱", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (!diagnostic) MessageBox.Show("无法启动硬件驾驶舱：\r\n" + error.Message, "硬件驾驶舱", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
             {
-                string root = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GptQuotaMonitor");
+                string root = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GptHardwareCockpit");
                 Directory.CreateDirectory(root);
                 File.WriteAllText(Path.Combine(root, "exe-test-error.txt"), error.GetType().Name + ": " + error.Message);
             }

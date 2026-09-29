@@ -10,6 +10,7 @@ build/cockpit.ico
 
 # Local and account-specific previews
 preview-live.png
+preview-*-live.png
 tests/*.png
 
 # Editor and OS files
@@ -19,4 +20,6 @@ Thumbs.db
 Desktop.ini
 *.user
 *.suo
-
+**/bin/
+**/obj/
+vendor/LibreHardwareMonitor/lib/HardwareDeps.*

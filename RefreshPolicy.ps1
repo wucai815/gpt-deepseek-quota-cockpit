@@ -10,15 +10,3 @@ function Get-CodexRefreshPolicy($Snapshot, [DateTimeOffset]$Now = [DateTimeOffse
     # Both windows must have recovered before the account can be useful again.
     [pscustomobject]@{paused=($unknownReset -or $null -ne $resume); resumeAt=$(if ($unknownReset) { $null } else { $resume })}
 }
-
-function Test-DeepSeekDepleted($Snapshot) {
-    if ($null -eq $Snapshot) { return $false }
-    if ($Snapshot.isAvailable -is [bool] -and -not $Snapshot.isAvailable) { return $true }
-    $rows=@($Snapshot.balances)
-    if ($rows.Count -eq 0) { return $false }
-    foreach ($row in $rows) {
-        # An absent currency value is unknown, not proof of depletion.
-        if ($null -eq $row -or $null -eq $row.total -or $row.total -gt 0) { return $false }
-    }
-    return $true
-}

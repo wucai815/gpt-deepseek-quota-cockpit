@@ -54,3 +54,11 @@ powershell.exe -NoProfile -STA -ExecutionPolicy Bypass -File .\Monitor.ps1 -Demo
 - 删除 DeepSeek 峰谷时段说明小字，放大“API 可用余额”和峰谷倒计时。
 - 960×640 演示及真实数据渲染已检查，动态金额和倒计时未超出区域。
 - 全部 101 项本地断言通过。
+
+## 2026-09-29 本地硬件版
+
+- 下方 DeepSeek 区域替换为 CPU、GPU、RAM 三组实时状态卡；上方 Codex 额度逻辑保持不变。
+- 本机识别：Intel Core i5-12490F、NVIDIA GeForce RTX 4070 SUPER、约 16 GB 物理内存。
+- GPU 使用率、温度、显存、功耗以及 CPU/内存使用率已用真实传感器验证。
+- 当前普通权限下 CPU 温度传感器不可用，界面显示 `-- ℃`，未使用 ACPI 环境温度代替。
+- 硬件版位于本地 `hardware-monitor` 分支，未推送 GitHub。

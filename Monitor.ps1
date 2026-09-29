@@ -69,13 +69,13 @@ public static class QuotaDisplay {
     }
 
     if (-not $RenderPath -and -not $SmokeTest) {
-        $mutexName = 'Local\GptQuotaMonitor_v1'
+        $mutexName = 'Local\GptHardwareCockpit_v1'
         if ($Demo) { $mutexName += '_Demo' }
         $created = $false
         $script:mutex = New-Object Threading.Mutex($true, $mutexName, [ref]$created)
         $script:ownsMutex = $created
         if (-not $created) {
-            [void][Windows.MessageBox]::Show('额度面板已在运行，请查看副屏或任务栏。', '额度观测')
+            [void][Windows.MessageBox]::Show('硬件驾驶舱已在运行，请查看副屏或任务栏。', '硬件驾驶舱')
             exit 0
         }
     }
@@ -352,21 +352,21 @@ public static class QuotaDisplay {
 
     $script:window.Topmost = [bool]$script:config.topmost
     $script:ui.PinButton.Content = if ($script:window.Topmost) { '已置顶' } else { '置顶' }
-    . (Join-Path $script:root 'DeepSeekPanel.ps1')
-    $script:ui.RefreshButton.Add_Click({ Start-Refresh -Force; Start-DeepSeekRefresh -Force })
+    . (Join-Path $script:root 'HardwarePanel.ps1')
+    $script:ui.RefreshButton.Add_Click({ Start-Refresh -Force; Update-HardwarePanel -Force })
     $script:ui.ScreenButton.Add_Click({ Next-Screen })
     $script:ui.PinButton.Add_Click({ Toggle-Pin })
     $script:ui.WindowButton.Add_Click({ Toggle-Fullscreen })
     $script:ui.CloseButton.Add_Click({ $script:window.Close() })
     $script:ui.Header.Add_MouseLeftButtonDown({ if (-not $script:isFullscreen -and $_.ClickCount -eq 1) { $script:window.DragMove() } })
     $menu = [Windows.Controls.ContextMenu]::new()
-    foreach ($entry in @(@('刷新额度  R','Refresh'),@('切换屏幕  Ctrl+Tab','Screen'),@('切换置顶  T','Pin'),@('窗口 / 全屏  F11','Window'),@('退出  Q','Exit'))) {
+    foreach ($entry in @(@('刷新数据  R','Refresh'),@('切换屏幕  Ctrl+Tab','Screen'),@('切换置顶  T','Pin'),@('窗口 / 全屏  F11','Window'),@('退出  Q','Exit'))) {
         $item = [Windows.Controls.MenuItem]::new()
         $item.Header = $entry[0]; $item.Tag = $entry[1]
         $item.Add_Click({
             param($sender, $args)
             switch ($sender.Tag) {
-                'Refresh' { Start-Refresh -Force; Start-DeepSeekRefresh -Force }
+                'Refresh' { Start-Refresh -Force; Update-HardwarePanel -Force }
                 'Screen' { Next-Screen }
                 'Pin' { Toggle-Pin }
                 'Window' { Toggle-Fullscreen }
@@ -379,7 +379,7 @@ public static class QuotaDisplay {
     $script:window.Add_KeyDown({
         if ($_.Key -eq 'F11') { Toggle-Fullscreen; $_.Handled = $true }
         elseif ($_.Key -eq 'Escape' -and $script:isFullscreen) { Toggle-Fullscreen; $_.Handled = $true }
-        elseif ($_.Key -eq 'R') { Start-Refresh -Force; Start-DeepSeekRefresh -Force; $_.Handled = $true }
+        elseif ($_.Key -eq 'R') { Start-Refresh -Force; Update-HardwarePanel -Force; $_.Handled = $true }
         elseif ($_.Key -eq 'T') { Toggle-Pin; $_.Handled = $true }
         elseif ($_.Key -eq 'Q') { $script:window.Close(); $_.Handled = $true }
         elseif ($_.Key -eq 'Tab' -and ([Windows.Input.Keyboard]::Modifiers -band [Windows.Input.ModifierKeys]::Control)) { Next-Screen; $_.Handled = $true }
@@ -440,7 +440,7 @@ public static class QuotaDisplay {
         try {
             $now = [DateTimeOffset]::UtcNow
             Complete-Refresh
-            Update-DeepSeekPanel
+            Update-HardwarePanel
             if ($now -ge $script:nextFetch) { Start-Refresh }
             Update-Status $now
             # Re-evaluate only when the attached display layout changes.
@@ -482,19 +482,19 @@ public static class QuotaDisplay {
     }
 } catch {
     $message = $_.Exception.Message
-    $logDirectory = Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'GptQuotaMonitor'
+    $logDirectory = Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'GptHardwareCockpit'
     [void][IO.Directory]::CreateDirectory($logDirectory)
     [IO.File]::WriteAllText((Join-Path $logDirectory 'startup-error.txt'), ([DateTime]::Now.ToString('s') + "`r`n" + $message), [Text.Encoding]::UTF8)
     if ($Diagnose -or $RenderPath -or $SmokeTest) {
         Write-Error $message -ErrorAction Continue
     } else {
-        try { [void][Windows.MessageBox]::Show(('启动失败：' + $message + "`n可双击 Diagnose.cmd 检查。"), '额度观测') } catch { }
+        try { [void][Windows.MessageBox]::Show(('启动失败：' + $message + "`n可双击 Diagnose.cmd 检查。"), '硬件驾驶舱') } catch { }
     }
     exit 1
 } finally {
     if ($script:timer) { $script:timer.Stop() }
     if ($script:worker) { $script:worker.ps.Stop(); $script:worker.ps.Dispose() }
-    if ($script:dsWorker) { $script:dsWorker.ps.Stop(); $script:dsWorker.ps.Dispose() }
+    if (Get-Command Close-HardwarePanel -ErrorAction SilentlyContinue) { Close-HardwarePanel }
     if ($script:ownsMutex) { $script:mutex.ReleaseMutex() }
     if ($script:mutex) { $script:mutex.Dispose() }
 }

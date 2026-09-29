@@ -3,9 +3,10 @@
 param([string]$OutputPath = '')
 $ErrorActionPreference='Stop'
 $project=Split-Path -Parent $PSScriptRoot
-if (-not $OutputPath) { $OutputPath=Join-Path (Split-Path -Parent $project) 'QuotaCockpit.exe' }
+if (-not $OutputPath) { $OutputPath=Join-Path (Split-Path -Parent $project) 'QuotaCockpit-Hardware.exe' }
 $payload=Join-Path $PSScriptRoot 'payload.zip'
-$runtimeFiles=@('Monitor.ps1','Dashboard.xaml','QuotaSource.ps1','RefreshPolicy.ps1','DeepSeekSource.ps1','DeepSeekPanel.ps1','DeepSeekTariff.ps1','pricing-rules.json','Set-DeepSeekKey.ps1','README.md')
+$runtimeFiles=@('Monitor.ps1','Dashboard.xaml','QuotaSource.ps1','RefreshPolicy.ps1','HardwareSource.ps1','HardwarePanel.ps1','README.md','vendor\LibreHardwareMonitor\README.md','vendor\LibreHardwareMonitor\packages.lock.json')
+$runtimeBinaries=Get-ChildItem (Join-Path $project 'vendor\LibreHardwareMonitor\lib') -Filter '*.dll' | Where-Object { $_.Name -ne 'HardwareDeps.dll' }
 Add-Type -AssemblyName System.IO.Compression,System.IO.Compression.FileSystem,System.Drawing
 $stream=[IO.File]::Open($payload,[IO.FileMode]::Create)
 $archive=[IO.Compression.ZipArchive]::new($stream,[IO.Compression.ZipArchiveMode]::Create)
@@ -14,6 +15,10 @@ try {
         $path=Join-Path $project $name
         if ([IO.File]::ReadAllText($path) -match 'sk-[A-Za-z0-9]{16,}') { throw 'Key-like material found in payload; build stopped.' }
         [void][IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive,$path,$name,[IO.Compression.CompressionLevel]::Optimal)
+    }
+    foreach ($file in $runtimeBinaries) {
+        $entry='vendor/LibreHardwareMonitor/lib/' + $file.Name
+        [void][IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive,$file.FullName,$entry,[IO.Compression.CompressionLevel]::Optimal)
     }
     $defaultConfig=Join-Path $project 'config.example.json'
     [void][IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive,$defaultConfig,'config.json',[IO.Compression.CompressionLevel]::Optimal)
