@@ -62,3 +62,4 @@ powershell.exe -NoProfile -STA -ExecutionPolicy Bypass -File .\Monitor.ps1 -Demo
 - GPU 使用率、温度、显存、功耗以及 CPU/内存使用率已用真实传感器验证。
 - 当前普通权限下 CPU 温度传感器不可用，界面显示 `-- ℃`，未使用 ACPI 环境温度代替。
 - 硬件版位于本地 `hardware-monitor` 分支，未推送 GitHub。
+- 第二轮布局精简已删除处理器、显卡与内存型号小字，并放大所有保留的硬件指标；演示和真实数据均在 960×640 下检查通过。

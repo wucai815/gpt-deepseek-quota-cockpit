@@ -15,21 +15,18 @@ function Set-HardwareBar([string]$Name, $Value) {
 
 function Show-HardwareSnapshot($Snapshot) {
     if ($null -eq $Snapshot) { return }
-    $script:ui.CpuName.Text = ('{0} · {1}C/{2}T' -f $Snapshot.cpu.name, $Snapshot.cpu.cores, $Snapshot.cpu.threads)
     $script:ui.CpuUsage.Text = Format-HardwareValue $Snapshot.cpu.usage ''
     $script:ui.CpuTemp.Text = '温度  ' + $(if ($null -eq $Snapshot.cpu.temperature) { '-- ℃' } else { (Format-HardwareValue $Snapshot.cpu.temperature ' ℃') })
     $script:ui.CpuClock.Text = '频率  ' + $(if ($null -eq $Snapshot.cpu.clockGHz) { '-- GHz' } else { (Format-HardwareValue $Snapshot.cpu.clockGHz ' GHz' '0.0') })
     $script:ui.CpuTemp.ToolTip = if ($null -eq $Snapshot.cpu.temperature) { '当前普通权限下未读取到 CPU 温度；其余数据仍正常更新。' } else { 'CPU 封装温度' }
     Set-HardwareBar 'CpuFill' $Snapshot.cpu.usage
 
-    $script:ui.GpuName.Text = $Snapshot.gpu.name
     $script:ui.GpuUsage.Text = Format-HardwareValue $Snapshot.gpu.usage ''
     $script:ui.GpuTemp.Text = '温度  ' + $(if ($null -eq $Snapshot.gpu.temperature) { '-- ℃' } else { (Format-HardwareValue $Snapshot.gpu.temperature ' ℃') })
     $script:ui.GpuMemory.Text = if ($null -eq $Snapshot.gpu.memoryUsedGb) { '显存  --' } else { '显存  {0:0.0} / {1:0.0} GB' -f $Snapshot.gpu.memoryUsedGb, $Snapshot.gpu.memoryTotalGb }
     $script:ui.GpuPower.Text = if ($null -eq $Snapshot.gpu.powerWatts) { '功耗 -- W' } else { '功耗 {0:0} W' -f $Snapshot.gpu.powerWatts }
     Set-HardwareBar 'GpuFill' $Snapshot.gpu.usage
 
-    $script:ui.RamName.Text = if ($null -eq $Snapshot.memory.totalGb) { '物理内存' } else { '{0:0.0} GB 物理内存' -f $Snapshot.memory.totalGb }
     $script:ui.RamUsage.Text = Format-HardwareValue $Snapshot.memory.usage ''
     $script:ui.RamUsed.Text = if ($null -eq $Snapshot.memory.usedGb) { '已用  --' } else { '已用  {0:0.0} / {1:0.0} GB' -f $Snapshot.memory.usedGb, $Snapshot.memory.totalGb }
     $script:ui.RamAvailable.Text = if ($null -eq $Snapshot.memory.availableGb) { '可用  --' } else { '可用  {0:0.0} GB' -f $Snapshot.memory.availableGb }
