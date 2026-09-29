@@ -23,7 +23,7 @@ function Show-HardwareSnapshot($Snapshot) {
 
     $script:ui.GpuUsage.Text = Format-HardwareValue $Snapshot.gpu.usage ''
     $script:ui.GpuTemp.Text = '温度  ' + $(if ($null -eq $Snapshot.gpu.temperature) { '-- ℃' } else { (Format-HardwareValue $Snapshot.gpu.temperature ' ℃') })
-    $script:ui.GpuMemory.Text = if ($null -eq $Snapshot.gpu.memoryUsedGb) { '显存  --' } else { '显存  {0:0.0}/{1:0.0} GB' -f $Snapshot.gpu.memoryUsedGb, $Snapshot.gpu.memoryTotalGb }
+    $script:ui.GpuMemory.Text = if ($null -eq $Snapshot.gpu.memoryUsedGb) { '--' } else { '{0:0.0}/{1:0.0} GB' -f $Snapshot.gpu.memoryUsedGb, $Snapshot.gpu.memoryTotalGb }
     Set-HardwareBar 'GpuFill' $Snapshot.gpu.usage
 
     $script:ui.RamUsage.Text = Format-HardwareValue $Snapshot.memory.usage ''

@@ -70,8 +70,8 @@
                   <TextBlock x:Name="ShortResetDate" Visibility="Collapsed"/>
                   <TextBlock x:Name="ShortReset" Grid.Row="1" Text="--" FontSize="32" FontWeight="Medium" Foreground="#EDF3FA" VerticalAlignment="Center"/>
                   <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <TextBlock x:Name="ShortCountdownLead" Text="还有" FontSize="12" Foreground="#93A6BD" VerticalAlignment="Center" Margin="0,0,7,0"/>
-                    <TextBlock x:Name="ShortCountdown" Text="--" FontSize="32" FontWeight="Medium" FontFamily="Consolas" Foreground="#C5D3E4" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="ShortCountdownLead" Text="还有" FontSize="32" FontWeight="Medium" FontFamily="Microsoft YaHei UI" Foreground="#C5D3E4" VerticalAlignment="Center" Margin="0,0,7,0"/>
+                    <TextBlock x:Name="ShortCountdown" Text="--" FontSize="32" FontWeight="Medium" FontFamily="Microsoft YaHei UI" Foreground="#C5D3E4" VerticalAlignment="Center"/>
                   </StackPanel>
                 </Grid>
               </Border>
@@ -96,8 +96,8 @@
                   <TextBlock x:Name="WeekResetDate" Text="本地时间" FontSize="13" Foreground="#A7B8CB" HorizontalAlignment="Right"/>
                   <TextBlock x:Name="WeekReset" Grid.Row="1" Text="--" FontSize="32" FontWeight="Medium" Foreground="#EDF3FA" VerticalAlignment="Center"/>
                   <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <TextBlock x:Name="WeekCountdownLead" Text="还有" FontSize="12" Foreground="#93A6BD" VerticalAlignment="Center" Margin="0,0,7,0"/>
-                    <TextBlock x:Name="WeekCountdown" Text="--" FontSize="32" FontWeight="Medium" FontFamily="Consolas" Foreground="#C5D3E4" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="WeekCountdownLead" Text="还有" FontSize="32" FontWeight="Medium" FontFamily="Microsoft YaHei UI" Foreground="#C5D3E4" VerticalAlignment="Center" Margin="0,0,7,0"/>
+                    <TextBlock x:Name="WeekCountdown" Text="--" FontSize="32" FontWeight="Medium" FontFamily="Microsoft YaHei UI" Foreground="#C5D3E4" VerticalAlignment="Center"/>
                   </StackPanel>
                 </Grid>
               </Border>
@@ -141,8 +141,8 @@
                 <Border x:Name="GpuFill" Width="0" CornerRadius="5" Background="#B9B9F5" HorizontalAlignment="Left"/>
               </Border>
               <Grid Grid.Row="3" Margin="7,8,7,0">
-                <TextBlock x:Name="GpuTemp" Text="温度  -- ℃" FontSize="18" FontWeight="Medium" Foreground="#E3E2F7" HorizontalAlignment="Left"/>
-                <TextBlock x:Name="GpuMemory" Text="显存  --" FontSize="18" FontWeight="Medium" Foreground="#CACBE0" HorizontalAlignment="Right"/>
+                <TextBlock x:Name="GpuTemp" Text="温度  -- ℃" FontSize="20" FontWeight="Medium" Foreground="#E3E2F7" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="GpuMemory" Text="--" FontSize="20" FontWeight="Medium" Foreground="#CACBE0" HorizontalAlignment="Right"/>
               </Grid>
             </Grid>
 
