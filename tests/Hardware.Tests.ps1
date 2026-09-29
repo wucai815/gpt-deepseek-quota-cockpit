@@ -14,6 +14,7 @@ try {
     Check ($snapshot.memory.usage -ge 0 -and $snapshot.memory.usage -le 100) 'Memory usage bounded.'
     Check ($snapshot.memory.usedGb -gt 0) 'Memory used available.'
     Check ($snapshot.memory.totalGb -gt $snapshot.memory.usedGb) 'Memory total exceeds used.'
+    Check ([math]::Abs($snapshot.memory.usage - 100 * $snapshot.memory.usedGb / $snapshot.memory.totalGb) -lt 2) 'Memory percentage matches physical capacity.'
     Check ($snapshot.gpu.usage -ge 0 -and $snapshot.gpu.usage -le 100) 'GPU usage bounded.'
     Check ($snapshot.gpu.temperature -gt 0 -and $snapshot.gpu.temperature -lt 120) 'GPU temperature plausible.'
     Check ($snapshot.gpu.memoryTotalGb -gt 0) 'GPU memory total available.'

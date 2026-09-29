@@ -121,7 +121,7 @@ function Get-HardwareSnapshot($Computer) {
         if ($perf) { $cpuUsage = if ($null -ne $perf.PercentProcessorUtility) { [double]$perf.PercentProcessorUtility } else { [double]$perf.PercentProcessorTime } }
     }
 
-    $ramUsage = Find-HardwareValue $all '^Memory$' 'Load' @('Memory')
+    $ramUsage = Find-HardwareValue ($all | Where-Object { $_.deviceName -eq 'Total Memory' }) '^Memory$' 'Load' @('Memory')
     $ramUsed = Find-HardwareValue ($all | Where-Object { $_.deviceName -eq 'Total Memory' }) '^Memory$' 'Data' @('Memory Used')
     $ramAvailable = Find-HardwareValue ($all | Where-Object { $_.deviceName -eq 'Total Memory' }) '^Memory$' 'Data' @('Memory Available')
     $ramTotal = if ($null -ne $ramUsed -and $null -ne $ramAvailable) { $ramUsed + $ramAvailable } else { $static.memoryTotalGb }

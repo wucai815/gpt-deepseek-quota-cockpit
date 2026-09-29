@@ -39,8 +39,9 @@ try {
         $launchArgs += @('-ConfigPath', ('"{0}"' -f $ConfigPath))
     }
 
-    Start-Process -FilePath $powerShellPath -ArgumentList $launchArgs `
-        -WorkingDirectory $PSScriptRoot -WindowStyle Hidden | Out-Null
+    $options = @{ FilePath=$powerShellPath; ArgumentList=$launchArgs; WorkingDirectory=$PSScriptRoot; WindowStyle='Hidden' }
+    if (-not $Demo) { $options.Verb='RunAs' }
+    Start-Process @options | Out-Null
 }
 catch {
     Add-Type -AssemblyName System.Windows.Forms

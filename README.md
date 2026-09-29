@@ -8,8 +8,8 @@
 
 ## 显示内容
 
-- CPU：实时使用率、核心/线程数、频率和温度。
-- GPU：实时使用率、核心温度、显存占用和功耗。
+- CPU：实时使用率、频率和温度。
+- GPU：实时使用率、核心温度和显存占用。
 - RAM：实时使用率、已用容量、总容量和可用容量。
 - Codex：5 小时及每周剩余额度、重置时间和倒计时，逻辑与原版一致。
 
@@ -21,7 +21,7 @@
 
 硬件传感器使用 LibreHardwareMonitorLib 0.9.6。GPU 数据在当前 RTX 4070 SUPER 上可读取温度、显存和功耗；Windows 系统接口作为降级来源。
 
-当前主板在普通用户权限下没有向 LibreHardwareMonitor 提供 CPU 温度，因此本机显示 `-- ℃`。面板不会把 ACPI 机箱环境温度误标成 CPU 温度。CPU 使用率、频率及其他硬件数据不受影响；若以后传感器库在当前权限下提供该数据，面板会自动显示。
+CPU 温度需要安装 [PawnIO 官方驱动](https://github.com/namazso/PawnIO.Setup/releases)，并以管理员权限运行面板。本机已安装且验证 PawnIO 2.2.0，成功读取 i5-12490F 封装温度及实时核心频率。EXE 和 Start.cmd 会请求 Windows 管理员确认；取消确认则不启动。驱动未安装或传感器不可用时显示 `-- ℃`，不会用 ACPI 环境温度代替。
 
 依赖位于 `vendor/LibreHardwareMonitor`，版本由 `packages.lock.json` 锁定。LibreHardwareMonitor 使用 MPL-2.0 许可证。
 
@@ -33,7 +33,7 @@
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build\Build.ps1
 ```
 
-默认输出为项目上级目录的 `QuotaCockpit-Hardware.exe`。程序使用 Windows PowerShell 5.1 与 WPF，不需要管理员权限。首次运行将内置文件释放到 `%LOCALAPPDATA%\GptHardwareCockpit\App`，配置保存在 `%LOCALAPPDATA%\GptHardwareCockpit\config.json`。
+默认输出为项目上级目录的 `QuotaCockpit-Hardware.exe`。程序使用 Windows PowerShell 5.1 与 WPF，需要管理员权限读取 CPU 传感器。首次运行将内置文件释放到 `%LOCALAPPDATA%\GptHardwareCockpit\App`，配置保存在 `%LOCALAPPDATA%\GptHardwareCockpit\config.json`。
 
 可用参数：
 

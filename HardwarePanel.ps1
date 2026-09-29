@@ -18,13 +18,12 @@ function Show-HardwareSnapshot($Snapshot) {
     $script:ui.CpuUsage.Text = Format-HardwareValue $Snapshot.cpu.usage ''
     $script:ui.CpuTemp.Text = '温度  ' + $(if ($null -eq $Snapshot.cpu.temperature) { '-- ℃' } else { (Format-HardwareValue $Snapshot.cpu.temperature ' ℃') })
     $script:ui.CpuClock.Text = '频率  ' + $(if ($null -eq $Snapshot.cpu.clockGHz) { '-- GHz' } else { (Format-HardwareValue $Snapshot.cpu.clockGHz ' GHz' '0.0') })
-    $script:ui.CpuTemp.ToolTip = if ($null -eq $Snapshot.cpu.temperature) { '当前普通权限下未读取到 CPU 温度；其余数据仍正常更新。' } else { 'CPU 封装温度' }
+    $script:ui.CpuTemp.ToolTip = if ($null -eq $Snapshot.cpu.temperature) { 'CPU 温度需要 PawnIO 驱动和管理员权限。请以管理员身份启动硬件版。' } else { 'CPU 封装温度 · 实时传感器' }
     Set-HardwareBar 'CpuFill' $Snapshot.cpu.usage
 
     $script:ui.GpuUsage.Text = Format-HardwareValue $Snapshot.gpu.usage ''
     $script:ui.GpuTemp.Text = '温度  ' + $(if ($null -eq $Snapshot.gpu.temperature) { '-- ℃' } else { (Format-HardwareValue $Snapshot.gpu.temperature ' ℃') })
     $script:ui.GpuMemory.Text = if ($null -eq $Snapshot.gpu.memoryUsedGb) { '显存  --' } else { '显存  {0:0.0} / {1:0.0} GB' -f $Snapshot.gpu.memoryUsedGb, $Snapshot.gpu.memoryTotalGb }
-    $script:ui.GpuPower.Text = if ($null -eq $Snapshot.gpu.powerWatts) { '功耗 -- W' } else { '功耗 {0:0} W' -f $Snapshot.gpu.powerWatts }
     Set-HardwareBar 'GpuFill' $Snapshot.gpu.usage
 
     $script:ui.RamUsage.Text = Format-HardwareValue $Snapshot.memory.usage ''
